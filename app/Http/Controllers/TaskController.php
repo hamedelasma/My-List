@@ -28,16 +28,19 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->has('priority')){
-            $tasks = Task::where('priority','=',$request->input('priority'))->get();
-            return  response()->json([
-                'data' => $tasks
-            ]);
+
+        $tasks = Task::query();
+
+        if ($request->has('priority')) {
+            $tasks = $tasks->where('priority', '=', $request->input('priority'));
         }
-        $tasks = Task::all();
+        if ($request->has('upcoming')) {
+            $tasks = $tasks->where('before_date', '>=', date('Y-m-d H-i'));
+        }
+
 
         return response()->json([
-            'data' => $tasks
+            'data' => $tasks->get()
         ]);
     }
 }
