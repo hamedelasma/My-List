@@ -28,7 +28,9 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-
+        $request->validate([
+            'sort' => ['in:before_date,priority,id']
+        ]);
         $tasks = Task::query();
 
         if ($request->has('priority')) {
@@ -38,6 +40,10 @@ class TaskController extends Controller
             $tasks = $tasks->where('before_date', '>=', date('Y-m-d H-i'));
         }
 
+        //add filter by is_done
+        if ($request->has('sort')) {
+            $tasks = $tasks->orderBy($request->input('sort'), 'asc');
+        }
 
         return response()->json([
             'data' => $tasks->get()
