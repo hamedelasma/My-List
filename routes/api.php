@@ -13,4 +13,7 @@ Route::put('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
 Route::post('tasks', [TaskController::class, 'store']);
-Route::get('tasks',[TaskController::class,'index']);
+Route::get('tasks', [TaskController::class, 'index']);
+Route::put('tasks/{task}', [TaskController::class, 'update']);
+Route::put('tasks/{task}/complete', [TaskController::class, 'complete']);
+Route::put('tasks/{task}/cancel', [TaskController::class, 'cancel']);
